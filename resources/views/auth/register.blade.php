@@ -1,6 +1,45 @@
-@extends('layouts.app')
+@extends('layouts.landing_page')
+
+@section('title')
+Register
+@endsection
 
 @section('content')
+
+<!-- <div class="content content-fixed content-auth-alt">
+   <div class="container ht-100p">
+        <div class="ht-100p d-flex flex-column align-items-center justify-content-center">
+			<div class="sign-wrapper">
+            <div class="wd-100p">
+              <h4 class="tx-color-01 mg-b-5">Create New Account</h4>
+              <p class="tx-color-03 tx-16 mg-b-40">It's free to signup and only takes a minute.</p>
+
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" style="border-radius:0px;" class="form-control" placeholder="Enter your email">
+              </div>
+              <div class="form-group">
+                <div class="d-flex justify-content-between mg-b-5">
+                  <label class="mg-b-0-f">Password</label>
+                </div>
+                <input type="password" style="border-radius:0px;" class="form-control" placeholder="Enter your password">
+              </div>
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" style="border-radius:0px;" class="form-control" placeholder="Enter your name">
+              </div>
+              <div class="form-group tx-12">
+                By clicking <strong>Create an account</strong> below, you agree to our terms of service and privacy statement.
+              </div>
+
+              <button class="btn btn-dark btn-block" style="border-radius:0px;">Create Account</button>
+              <div class="tx-13 mg-t-20 tx-center">Already have an account? <a href="{{ url('/login') }}">Sign In</a></div>
+            </div>
+        	  </div>
+			</div>
+      </div>
+</div> -->
+
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
