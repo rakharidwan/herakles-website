@@ -33,7 +33,8 @@
     <title>DashForge Responsive Bootstrap 4 Dashboard Template</title>
 
     <!-- vendor css -->
-    <link href="{{ asset('lib/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <link href="{{ asset('lib/ionicons/css/ionicons.min.css') }}" rel="stylesheet">
     <link href="{{ asset('lib/jqvmap/jqvmap.min.css') }}" rel="stylesheet">
 
@@ -94,7 +95,15 @@
             </ul>
           </li>
           <li class="nav-label mg-t-25">CMS</li>
-          <li class="nav-item"><a href="dashboard-one.html" class="nav-link"><i data-feather="monitor"></i> <span>Myth</span></a></li>
+          <li class="nav-item with-sub">
+            <a href="" class="nav-link"><i data-feather="package"></i> <span>Landing Page</span></a>
+            <ul>
+              <li><a href="page-timeline.html">Home</a></li>
+              <li><a href="page-timeline.html">Lookbook</a></li>
+              <li><a href="page-timeline.html">News</a></li>
+              <li><a href="page-timeline.html">Myth</a></li>
+            </ul>
+          </li>
           <li class="nav-label mg-t-25">User Interface</li>
           <li class="nav-item"><a href="{{ asset('components') }}" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg> <span>Components</span></a></li>
           <li class="nav-item"><a href="{{ asset('collections') }}" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M12.89 1.45l8 4A2 2 0 0 1 22 7.24v9.53a2 2 0 0 1-1.11 1.79l-8 4a2 2 0 0 1-1.79 0l-8-4a2 2 0 0 1-1.1-1.8V7.24a2 2 0 0 1 1.11-1.79l8-4a2 2 0 0 1 1.78 0z"></path><polyline points="2.32 6.16 12 11 21.68 6.16"></polyline><line x1="12" y1="22.76" x2="12" y2="11"></line></svg> <span>Collections</span></a></li>

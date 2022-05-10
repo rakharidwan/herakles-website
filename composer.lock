@@ -5551,16 +5551,16 @@
         },
         {
             "name": "yajra/laravel-datatables-html",
-            "version": "v9.0.0",
+            "version": "v9.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables-html.git",
-                "reference": "30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6"
+                "reference": "e1e6da2d01d85fefbc9e0c596f0cf1112904975f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6",
-                "reference": "30f7cb48d86e3cf95f41bd5c1ff3ecd2fa5e58f6",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables-html/zipball/e1e6da2d01d85fefbc9e0c596f0cf1112904975f",
+                "reference": "e1e6da2d01d85fefbc9e0c596f0cf1112904975f",
                 "shasum": ""
             },
             "require": {
@@ -5609,7 +5609,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables-html/issues",
-                "source": "https://github.com/yajra/laravel-datatables-html/tree/v9.0.0"
+                "source": "https://github.com/yajra/laravel-datatables-html/tree/v9.0.1"
             },
             "funding": [
                 {
@@ -5621,20 +5621,20 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-05-07T16:19:45+00:00"
+            "time": "2022-05-08T15:51:39+00:00"
         },
         {
             "name": "yajra/laravel-datatables-oracle",
-            "version": "v10.0.0",
+            "version": "v10.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/yajra/laravel-datatables.git",
-                "reference": "fcbecbcc5f4d475ceb33cf84c20363137a4e5d82"
+                "reference": "b900419ec92e6e4e7552046b88cf8feff639e56a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/fcbecbcc5f4d475ceb33cf84c20363137a4e5d82",
-                "reference": "fcbecbcc5f4d475ceb33cf84c20363137a4e5d82",
+                "url": "https://api.github.com/repos/yajra/laravel-datatables/zipball/b900419ec92e6e4e7552046b88cf8feff639e56a",
+                "reference": "b900419ec92e6e4e7552046b88cf8feff639e56a",
                 "shasum": ""
             },
             "require": {
@@ -5647,7 +5647,8 @@
             },
             "require-dev": {
                 "nunomaduro/larastan": "^2.1",
-                "orchestra/testbench": "^7.3"
+                "orchestra/testbench": "^7.3",
+                "yajra/laravel-datatables-html": "^9.0"
             },
             "suggest": {
                 "yajra/laravel-datatables-buttons": "Plugin for server-side exporting of dataTables.",
@@ -5695,7 +5696,7 @@
             ],
             "support": {
                 "issues": "https://github.com/yajra/laravel-datatables/issues",
-                "source": "https://github.com/yajra/laravel-datatables/tree/v10.0.0"
+                "source": "https://github.com/yajra/laravel-datatables/tree/v10.0.4"
             },
             "funding": [
                 {
@@ -5707,7 +5708,7 @@
                     "type": "patreon"
                 }
             ],
-            "time": "2022-05-07T16:58:13+00:00"
+            "time": "2022-05-08T14:41:00+00:00"
         }
     ],
     "packages-dev": [
@@ -8370,5 +8371,5 @@
         "php": "^7.2|^8.0"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }
