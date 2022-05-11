@@ -21,6 +21,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "cropperjs": "^1.5.12",
         "dropzone": "^6.0.0-beta.2"
     }
 }

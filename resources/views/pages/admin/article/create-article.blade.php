@@ -2,6 +2,8 @@
 @section('styles')
 
 <link rel="stylesheet" href="{{ url('lib/fancy-file-uploader/fancy_fileupload.css') }}">
+<script src="{{ url('/lib/cropper.js/dist/cropper.css') }}"></script>
+<script src="{{ url('/lib/cropper.js/dist/cropper.min.css') }}"></script>
 
 <style>
   @media only screen and (max-width: 767px) {
@@ -109,20 +111,31 @@ input[type="file"]{
                       <div class="col-xl-12">
                         <label class="d-block">Image: <span class="tx-danger">*</span></label>
                       </div>
-                      <div class="col-sm-3 col image-column mt-3">
-                        <div class="card" style="height:270px;border-radius:0px">
+                      <div class="col-sm-3 image-column mt-3">
+                        <div class="card" style="height:280px;border-radius:0px">
                           <div class="d-flex justify-content-center">
-                              <input type="file" class="op-0 image-input" onchange="previewImage()">
+                              <input type="file" class="op-0 image-input" >
                               <img src="" class="img-preview">
+                              <div class="op-2 img-upload btn-upload-img" style="margin-top:110px">
+                                <i class="fa fa-upload" style="pointer-events: none"></i>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      {{-- <div class="col-sm-3 image-column mt-3">
+                        <div class="card" style="height:280px;border-radius:0px;">
+                          <div class="d-flex justify-content-center">
+                              <input type="file" class="op-0 image-input" >
+                              <img src="{{asset('/assets/picture/dummy_picture.webp')}}" class="card-img img-preview">
                               <div class="op-2 img-upload" style="margin-top:110px">
                                 <i class="fa fa-upload"></i>
                               </div>
                             </div>
                         </div>
-                      </div>
+                      </div> --}}
                       
-                      <div class="col-sm-3 col mt-3" id="AddImageButtonColumn">
-                        <div class="card bd-0" style="height:270px">
+                      <div class="col-sm-3 mt-3" id="AddImageButtonColumn">
+                        <div class="card bd-0" style="height:280px">
                           <div class="d-flex justify-content-center">
                               <div class="mg-t-65 op-2 img-upload" style="cursor: pointer;margin-top:110px" id="addImageButton">
                                 <i class="fa fa-plus"></i>
@@ -194,6 +207,9 @@ input[type="file"]{
                     <div id="quantityForms">
 
                     </div>
+                    <button type="button" class="btn btn-primary" id="cropImageModalButton" data-toggle="modal" data-target="#cropImageModal">
+                      Launch demo modal
+                    </button>
                     <button type="button" id="createArticleSubmitButton" class="btn btn-primary float-right mt-3" style="border-radius:0px">Submit</button>
                   </form>
                 </div>
@@ -202,26 +218,57 @@ input[type="file"]{
           </div>
         </div>
       </div>
+
+      {{-- Modal --}}
+
+      <div class="modal fade" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+          <div class="modal-content tx-14">
+            <div class="modal-header">
+              <h6 class="modal-title" id="exampleModalLabel2">Modal Title</h6>
+              {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span> --}}
+              </button>
+            </div>
+            <div class="modal-body">
+              <img src="{{asset('/assets/picture/Black-Clover.jpg')}}" width="500px" id="picture" alt="">
+              <span id="data"></span>
+              <button type="button" id="button">Crop</button>
+              <div id="result"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary tx-13">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{-- End Modal --}}
+
 @endsection
 
 @section('scripts')
 
+<script src="{{ url('/lib/cropper.js/dist/cropper.js') }}"></script>
+<script src="{{ url('/lib/cropper.js/dist/cropper.min.js') }}"></script>
+{{-- <script src="{{ url('/lib/cropper.js/dist/cropper.common.js') }}"></script> --}}
+{{-- <script src="{{ url('/lib/cropper.js/dist/cropper.esm.js') }}"></script> --}}
 <script src="{{ url('/lib/cleave.js/cleave.min.js')}}"></script>
-<script src="{{ url('lib/cleave.js/addons/cleave-phone.us.js') }}"></script>
-<script src="{{ url('lib/fancy-file-uploader/jquery.ui.widget.js') }}"></script>
-<script src="{{ url('lib/fancy-file-uploader/jquery.fileupload.js') }}"></script>
-<script src="{{ url('lib/fancy-file-uploader/jquery.iframe-transport.js') }}"></script>
-<script src="{{ url('lib/fancy-file-uploader/jquery.fancy-fileupload.js') }}"></script>
+<script src="{{ url('/lib/cleave.js/addons/cleave-phone.us.js') }}"></script>
+<script src="{{ url('/lib/fancy-file-uploader/jquery.ui.widget.js') }}"></script>
+<script src="{{ url('/lib/fancy-file-uploader/jquery.fileupload.js') }}"></script>
+<script src="{{ url('/lib/fancy-file-uploader/jquery.iframe-transport.js') }}"></script>
+<script src="{{ url('/lib/fancy-file-uploader/jquery.fancy-fileupload.js') }}"></script>
 <script>
 
-  function previewImage(){
+  // function previewImage(e){
+    
+  //   console.log(e.target);
 
-    const image = document.querySelector('.image-input');
- 
-
-  }
+  // }
 
   $(function(){
+    
 
     'use strict'
         var cleaveH = new Cleave('#priceInput', {
@@ -237,6 +284,8 @@ input[type="file"]{
             $(this).val($(this).val().replace(/[^0-9^. ]/g, ''));
         });
 
+
+
         $(function() {
 	$('#thefiles').FancyFileUpload({
 		params : {
@@ -249,10 +298,11 @@ input[type="file"]{
 
     $('#addImageButton').on('click', function(){
 
-      $('#AddImageButtonColumn').before(` <div class="col-sm-3 col image-column mt-3">
-                        <div class="card" style="height:270px;border-radius:0px">
+      $('#AddImageButtonColumn').before(`  <div class="col-sm-3 image-column mt-3">
+                        <div class="card" style="height:280px;border-radius:0px">
                           <div class="d-flex justify-content-center">
-                              <input type="file" class="op-0">
+                              <input type="file" class="op-0 image-input" >
+                              <img src="" class="img-preview">
                               <div class="op-2 img-upload" style="margin-top:110px">
                                 <i class="fa fa-upload"></i>
                               </div>
@@ -342,9 +392,115 @@ input[type="file"]{
       $(window).on('load', function () {
         $('#spinner').html('')
         $('#bodyContent').show()
-      }) 
+      })
+
+
+      $("body").on('click','.btn-upload-img', function(e){
+        let input = e.target.parentElement.children[0];
+        // console.log(elementParent);
+        input.click()
+        console.log('success');
+      })
+
+      $("body").on('click','.btn-delete-img', function(e){
+        let input = e.target.parentElement.children[0];
+        let image = e.target.parentElement.children[1];
+        let button = e.target.parentElement.children[2];
+        let icon = e.target.parentElement.children[2].children[0]
+
+        // console.log(elementParent);
+        input.value = null;
+        image.src = '';
+
+        console.log(icon);
+        
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-upload');
+
+        button.classList.remove('btn-delete-img')
+        button.classList.add('btn-upload-img')
+        
+
+      })
+
+
+      $("body").on('change','.image-input',function(e){
+        $('#cropImageModalButton').trigger('click')
+        // let elementParent = e.target.parentElement;
+        // let imgPreview = elementParent.children[1];
+        // let image = this;
+
+        // // console.log(elementParent.children[2])
+        // let icon = elementParent.children[2].children[0]
+        // let button = elementParent.children[2]
+
+        // button.classList.remove('btn-upload-img')
+        // button.classList.add('btn-delete-img')
+
+        // button.style.cursor = "pointer"
+
+        // icon.classList.add('fa-xmark');
+        // icon.classList.remove('fa-upload');
+
+        // imgPreview.classList.add('card-img');
+
+        // const oFReader = new FileReader();
+
+        // oFReader.readAsDataURL(image.files[0]);
+
+        // oFReader.onload = function(oFREvent){
+
+        //     imgPreview.src = oFREvent.target.result
+
+        //   }
+        
+        })
 
   })
+
+  window.addEventListener('DOMContentLoaded', function () {
+      var image = document.querySelector('#image');
+      var data = document.querySelector('#data');
+      var button = document.getElementById('button');
+      var result = document.getElementById('result');
+      var minCroppedWidth = 320;
+      var minCroppedHeight = 160;
+      var maxCroppedWidth = 640;
+      var maxCroppedHeight = 320;
+      var cropper = new Cropper(image, {
+        viewMode: 3,
+        zoomable: false,
+
+        data: {
+          width: (minCroppedWidth + maxCroppedWidth) / 2,
+          height: (minCroppedHeight + maxCroppedHeight) / 2,
+        },
+
+        crop: function (event) {
+          var width = event.detail.width;
+          var height = event.detail.height;
+
+          if (
+            width < minCroppedWidth
+            || height < minCroppedHeight
+            || width > maxCroppedWidth
+            || height > maxCroppedHeight
+          ) {
+            cropper.setData({
+              width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
+              height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height)),
+            });
+          }
+
+          data.textContent = JSON.stringify(cropper.getData(true));
+        },
+      });
+
+      button.onclick = function () {
+        result.innerHTML = '';
+        result.appendChild(cropper.getCroppedCanvas());
+      };
+    });
 
 </script>
 
