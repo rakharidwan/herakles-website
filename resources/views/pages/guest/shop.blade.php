@@ -159,7 +159,7 @@
     </div>
       <div class="container">
         <div class="row pd-x-0 pd-lg-x-10 pd-xl-x-0">
-        <div class="col-12"><h5 class="text-center" style="padding-top:5px; padding-bottom:15px;">ALL ITEM</h5></div>
+          <div class="col-12"><h5 class="text-center" style="padding-top:5px; padding-bottom:15px;">ALL ITEM</h5></div>
             <div class="col-xl-3" id="filter" data-display="none">
               <ul class="list-group" style="border: 1px solid rgba(0,0,0,.24);">
                 <li class="list-group-item active" style="cursor:pointer" data-category="all item"> All Item</li>

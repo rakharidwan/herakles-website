@@ -1,9 +1,10 @@
 @extends('layouts.admin')
 @section('styles')
 
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
 <link rel="stylesheet" href="{{ url('lib/fancy-file-uploader/fancy_fileupload.css') }}">
-<script src="{{ url('/lib/cropper.js/dist/cropper.css') }}"></script>
-<script src="{{ url('/lib/cropper.js/dist/cropper.min.css') }}"></script>
+<link rel="stylesheet" href="{{ url('lib/Croppie-2.6.4/croppie.css') }}">
+
 
 <style>
   @media only screen and (max-width: 767px) {
@@ -29,13 +30,39 @@ input[type="file"]{
   border-radius: 200px;
   background-color: black;
   font-size: 20px;
+  opacity: 0.1;
   display: flex;
-  position: absolute;
   justify-content: center;
   align-items: center;
 }
 
+      .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
 
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+      }
+
+.croppie-container{
+  height:75%;
+}
+
+.img-index-product{
+  cursor: pointer;
+}
 
 
 </style>
@@ -110,38 +137,6 @@ input[type="file"]{
                     <div class="row">
                       <div class="col-xl-12">
                         <label class="d-block">Image: <span class="tx-danger">*</span></label>
-                      </div>
-                      <div class="col-sm-3 image-column mt-3">
-                        <div class="card" style="height:280px;border-radius:0px">
-                          <div class="d-flex justify-content-center">
-                              <input type="file" class="op-0 image-input" >
-                              <img src="" class="img-preview">
-                              <div class="op-2 img-upload btn-upload-img" style="margin-top:110px">
-                                <i class="fa fa-upload" style="pointer-events: none"></i>
-                              </div>
-                            </div>
-                        </div>
-                      </div>
-                      {{-- <div class="col-sm-3 image-column mt-3">
-                        <div class="card" style="height:280px;border-radius:0px;">
-                          <div class="d-flex justify-content-center">
-                              <input type="file" class="op-0 image-input" >
-                              <img src="{{asset('/assets/picture/dummy_picture.webp')}}" class="card-img img-preview">
-                              <div class="op-2 img-upload" style="margin-top:110px">
-                                <i class="fa fa-upload"></i>
-                              </div>
-                            </div>
-                        </div>
-                      </div> --}}
-                      
-                      <div class="col-sm-3 mt-3" id="AddImageButtonColumn">
-                        <div class="card bd-0" style="height:280px">
-                          <div class="d-flex justify-content-center">
-                              <div class="mg-t-65 op-2 img-upload" style="cursor: pointer;margin-top:110px" id="addImageButton">
-                                <i class="fa fa-plus"></i>
-                              </div>
-                            </div>
-                        </div>
                       </div>
                     </div>
                     <br>
@@ -222,23 +217,44 @@ input[type="file"]{
       {{-- Modal --}}
 
       <div class="modal fade" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2" style="display: none;" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-          <div class="modal-content tx-14">
-            <div class="modal-header">
+        <div class="modal-dialog modal-dialog-centered modal-lg"  role="document">
+          <div class="modal-content tx-14" style="border-radius: 0px">
+            <div class="modal-header" >
               <h6 class="modal-title" id="exampleModalLabel2">Modal Title</h6>
-              {{-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span> --}}
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
               </button>
             </div>
-            <div class="modal-body">
-              <img src="{{asset('/assets/picture/Black-Clover.jpg')}}" width="500px" id="picture" alt="">
-              <span id="data"></span>
-              <button type="button" id="button">Crop</button>
-              <div id="result"></div>
+            <div class="modal-body" >
+              {{-- <img src="{{asset('/assets/picture/product-picture.webp')}}" width="500" id="picture" alt=""> --}}
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="row">
+                    <img src="https://via.placeholder.com/390x318" class="img-index-product"  style="width: 100%" alt="">
+                    <div class="col-md-4">
+                      <img src="https://via.placeholder.com/115x110"  alt="">
+                    </div>
+                    <div class="col-md-4">
+                      <img src="https://via.placeholder.com/115x110"  alt="">
+                    </div>
+                    <div class="col-md-4">
+                      <img src="https://via.placeholder.com/115x110"  alt="">
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div id="image_demo"></div>
+                  <div class="custom-file">
+                    {{-- <input type="file" class="custom-file-input" id="uploadImage" style="border-radius:0px">
+                    <label class="custom-file-label" for="customFile">Choose file</label> --}}
+                  </div>
+                  <button type="button" id="addImageButton"class="btn btn-primary tx-13 float-left mt-3" style="border-radius: 0px;">Add Image</button>
+                  <button type="button" class="btn btn-primary tx-13 float-right mt-3" style="border-radius: 0px;">Save</button>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary tx-13">Save changes</button>
+              <button type="button" class="btn btn-primary tx-13" style="border-radius: 0px;" >Save changes</button>
             </div>
           </div>
         </div>
@@ -249,10 +265,8 @@ input[type="file"]{
 
 @section('scripts')
 
-<script src="{{ url('/lib/cropper.js/dist/cropper.js') }}"></script>
-<script src="{{ url('/lib/cropper.js/dist/cropper.min.js') }}"></script>
-{{-- <script src="{{ url('/lib/cropper.js/dist/cropper.common.js') }}"></script> --}}
-{{-- <script src="{{ url('/lib/cropper.js/dist/cropper.esm.js') }}"></script> --}}
+<script src="{{ url('/lib/Croppie-2.6.4/croppie.js') }}"></script>
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> 
 <script src="{{ url('/lib/cleave.js/cleave.min.js')}}"></script>
 <script src="{{ url('/lib/cleave.js/addons/cleave-phone.us.js') }}"></script>
 <script src="{{ url('/lib/fancy-file-uploader/jquery.ui.widget.js') }}"></script>
@@ -261,11 +275,21 @@ input[type="file"]{
 <script src="{{ url('/lib/fancy-file-uploader/jquery.fancy-fileupload.js') }}"></script>
 <script>
 
-  // function previewImage(e){
-    
-  //   console.log(e.target);
-
-  // }
+  var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        slidesPerGroup: 3,
+        loop: true,
+        loopFillGroupWithBlank: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
 
   $(function(){
     
@@ -298,23 +322,8 @@ input[type="file"]{
 
     $('#addImageButton').on('click', function(){
 
-      $('#AddImageButtonColumn').before(`  <div class="col-sm-3 image-column mt-3">
-                        <div class="card" style="height:280px;border-radius:0px">
-                          <div class="d-flex justify-content-center">
-                              <input type="file" class="op-0 image-input" >
-                              <img src="" class="img-preview">
-                              <div class="op-2 img-upload" style="margin-top:110px">
-                                <i class="fa fa-upload"></i>
-                              </div>
-                            </div>
-                        </div>
-                      </div>`)
-      
-      let imageColumn = $(".image-column").length;
-
-      if (imageColumn >= 8) {
-          $('#AddImageButtonColumn').remove()
-      }
+        $('.image-child').append('')
+        console.log('success');
 
     })
 
@@ -365,7 +374,7 @@ input[type="file"]{
     })
 
     $('#addQuantityForm').on('click', function(){
-      console.log('success');
+      // console.log('success');
       $('#quantityForms').append(`<div class="d-flex 200 child">
                       <div class="300 flex-fill pd-r-15">
                         <div class="form-group">
@@ -399,7 +408,7 @@ input[type="file"]{
         let input = e.target.parentElement.children[0];
         // console.log(elementParent);
         input.click()
-        console.log('success');
+        // console.log('success');
       })
 
       $("body").on('click','.btn-delete-img', function(e){
@@ -423,6 +432,38 @@ input[type="file"]{
 
       })
 
+      cropImage()
+
+      function cropImage(){
+
+         var image_crop = $('#image_demo').croppie({
+          enableExif: true,
+          viewport: {
+            width: 200,
+            height: 200,
+            type: 'squere',
+
+          },
+          boundary:{
+            width: 300,
+            height: 300
+          }
+        })
+
+        $('#uploadImage').on('change', function(){
+
+          var reader = new FileReader();
+          reader.onload = function (event){
+            image_crop.croppie('bind', {
+              url: event.target.result
+            }).then(function(){
+              console.log('jQuery bin complete');
+            });
+          }
+          reader.readAsDataURL(this.files[0]);
+        });
+
+      }
 
       $("body").on('change','.image-input',function(e){
         $('#cropImageModalButton').trigger('click')
@@ -458,50 +499,9 @@ input[type="file"]{
 
   })
 
-  window.addEventListener('DOMContentLoaded', function () {
-      var image = document.querySelector('#image');
-      var data = document.querySelector('#data');
-      var button = document.getElementById('button');
-      var result = document.getElementById('result');
-      var minCroppedWidth = 320;
-      var minCroppedHeight = 160;
-      var maxCroppedWidth = 640;
-      var maxCroppedHeight = 320;
-      var cropper = new Cropper(image, {
-        viewMode: 3,
-        zoomable: false,
-
-        data: {
-          width: (minCroppedWidth + maxCroppedWidth) / 2,
-          height: (minCroppedHeight + maxCroppedHeight) / 2,
-        },
-
-        crop: function (event) {
-          var width = event.detail.width;
-          var height = event.detail.height;
-
-          if (
-            width < minCroppedWidth
-            || height < minCroppedHeight
-            || width > maxCroppedWidth
-            || height > maxCroppedHeight
-          ) {
-            cropper.setData({
-              width: Math.max(minCroppedWidth, Math.min(maxCroppedWidth, width)),
-              height: Math.max(minCroppedHeight, Math.min(maxCroppedHeight, height)),
-            });
-          }
-
-          data.textContent = JSON.stringify(cropper.getData(true));
-        },
-      });
-
-      button.onclick = function () {
-        result.innerHTML = '';
-        result.appendChild(cropper.getCroppedCanvas());
-      };
-    });
 
 </script>
+
+
 
 @endsection
