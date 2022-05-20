@@ -47,7 +47,7 @@ Auth::routes();
 
 Route::get('/article', [App\Http\Controllers\ArticleController::class, 'index']);
 Route::get('/article/create', [App\Http\Controllers\ArticleController::class, 'create']);
-Route::post('article/store', [App\Http\Controllers\ArticleController::class, 'store']);
+Route::post('/article/store', [App\Http\Controllers\ArticleController::class, 'store']);
 Route::get('/article/{id}', [App\Http\Controllers\ArticleController::class, 'detail']);
 Route::get('/article/edit/{id}', [App\Http\Controllers\ArticleController::class, 'edit']);
 Route::patch('/article/update/{id}', [App\Http\Controllers\ArticleController::class, 'update']);

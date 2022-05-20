@@ -26,14 +26,14 @@ class ArticlesDataTable extends DataTable
                 return $article->code_article.'-'.$article->no_article;
             })
             ->addColumn('category', function($article){
-                return $article->category->category;
-            })
-            ->addColumn('price', function($article){
-                return 'Rp. '.number_format($article->price,0,'','.');
-            })
-            ->addColumn('stock', function($article){
-                return $article->quantity->sum('quantity');
+                return $article->category;
             });
+            // ->addColumn('price', function($article){
+            //     return 'Rp. '.number_format($article->price,0,'','.');
+            // })
+            // ->addColumn('stock', function($article){
+            //     return $article->quantity->sum('quantity');
+            // });
     }
 
     /**
@@ -43,8 +43,9 @@ class ArticlesDataTable extends DataTable
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Article $model)
-    {
-        return $model->newQuery();
+    {   
+        $article = Article::with(['quantity','category']);
+        return $article->newQuery();
     }
 
     /**
@@ -72,8 +73,8 @@ class ArticlesDataTable extends DataTable
             Column::make('code article'),
             Column::make('name_article'),
             Column::make('category'),
-            Column::make('price'),
-            Column::make('stock'),
+            // Column::make('price'),
+            // Column::make('stock'),
         ];
     }
 

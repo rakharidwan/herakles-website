@@ -10,6 +10,8 @@ class ArticleQuantity extends Model
     use HasFactory;
 
     protected $table = 'article_quantitys';
+    protected $fillable = ['size','quantity'];
+
 
     public function article()
     {

@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('articlables', function (Blueprint $table) {
             $table->id();
             $table->string('article_id',10);
-            $table->string('articlable_id',10);
+            $table->string('articlable_id',10)->nullable();
             $table->string('articlable_type');
 
             $table->timestamps();
