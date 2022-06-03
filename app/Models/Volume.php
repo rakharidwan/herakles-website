@@ -11,4 +11,9 @@ class Volume extends Model
 
     protected $table = 'volumes';
 
+    public function article()
+    {
+        return $this->morphToMany(Article::class, 'articlable');
+    }
+
 }

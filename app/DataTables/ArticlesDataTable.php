@@ -26,14 +26,21 @@ class ArticlesDataTable extends DataTable
                 return $article->code_article.'-'.$article->no_article;
             })
             ->addColumn('category', function($article){
-                return $article->category;
-            });
-            // ->addColumn('price', function($article){
-            //     return 'Rp. '.number_format($article->price,0,'','.');
-            // })
-            // ->addColumn('stock', function($article){
-            //     return $article->quantity->sum('quantity');
-            // });
+                return $article->category->category;
+            })
+            ->addColumn('price', function($article){
+                return 'Rp. '.number_format($article->price,0,'','.');
+            })
+            ->addColumn('stock', function($article){
+
+                $quantity = $article->quantity->sum('quantity');
+
+                if($quantity == 0){
+                    $quantity = 'Out Of Stock';
+                }
+
+                return $quantity;
+            })->rawColumns(['stock','code_article']);
     }
 
     /**
@@ -58,8 +65,7 @@ class ArticlesDataTable extends DataTable
         return $this->builder()
                     ->setTableId('articles-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->orderBy(1);
+                    ->minifiedAjax();
     }
 
     /**
@@ -73,8 +79,8 @@ class ArticlesDataTable extends DataTable
             Column::make('code article'),
             Column::make('name_article'),
             Column::make('category'),
-            // Column::make('price'),
-            // Column::make('stock'),
+            Column::make('price'),
+            Column::make('stock'),
         ];
     }
 

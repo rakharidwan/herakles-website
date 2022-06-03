@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
@@ -25,4 +27,15 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function test(){
+        
+        $article = Article::with(['category'])->first();
+
+        $replace = str_replace([' . ',' .'], '', $article->price);
+
+        return $replace;
+
+    }
+
 }

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('name_article',40);
             $table->string('price',15);
             $table->text('description');
+            $table->text('main_image')->nullable();
             $table->string('chapter',10);
             $table->string('status_publish',1);
 

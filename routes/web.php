@@ -41,7 +41,7 @@ Route::get('/myth-detail', function () {
     return view('pages.guest.myth-detail');
 });
 
-Route::get('/test', [App\Http\Controllers\ArticleController::class, 'index']);
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'test']);
 
 Auth::routes();
 

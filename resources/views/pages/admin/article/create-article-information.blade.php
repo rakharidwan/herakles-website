@@ -3,8 +3,8 @@
 
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
 <link rel="stylesheet" href="{{ url('lib/fancy-file-uploader/fancy_fileupload.css') }}">
+<link rel="stylesheet" href="{{ url('/lib/cropperjs/dist/cropper.min.css') }}">
 <link rel="stylesheet" href="{{ url('lib/Croppie-2.6.4/croppie.css') }}">
-
 
 <style>
 
@@ -90,6 +90,7 @@ input[type=number] {
   cursor: pointer;
 }
 
+  
 
 </style>
 
@@ -121,8 +122,8 @@ input[type=number] {
               </div>
             </div>
               <div class="row">
-                <div class="col-md-12">
-                  <div class="card" id="bodyContent">
+                <div class="col-md-6">
+                  <div class="card" style="border-radius:0px" id="bodyContent">
                     <div class="card-body">
                       <h5 class="card-title">Article Information</h5>
                         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -195,7 +196,9 @@ input[type=number] {
                               <select style="border-radius:0px" id="volume" name="volume" class="volume_input form-control">
                                 <option value="">-- Select Volume --</option>
                                 <option value="unchapter">Unchapter</option>
-                                <option value="1">Volume 1</option>
+                                @foreach ($volumes as $volume)
+                                <option value="{{ $volume->id }}">{{ $volume->title }}</option>
+                                @endforeach
                               </select>
                               <div class="volume_error invalid-feedback"></div>
                             </div>
@@ -211,12 +214,23 @@ input[type=number] {
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="row">
-                <div class="col-lg-6">
+                <div class="col-md-6">
+                  <div class="card table-responsive" style="border-radius:0px;">
+                    <div class="card-body">
+                      <h5 class="card-title">Image</h5>
+                      <div class="row" id="rowImage">
+                          <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center" id="newImageColumn" style="margin-bottom: 5px; margin-top: 5px;height:172.66px;">
+                            <br>
+                            <i class="fa fa-image fa-2x op-4 icon-no-image"></i>
+                            <br>
+                            <p class="text-center text-new-image mt-3" >Click For Add New Image</p>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
                   <div class="card mt-4" style="border-radius:0px;">
-                    <div class="card-body  ">
-                      <h5 class="card-title">Quantity</h5>
+                    <div class="card-body">
+                      <h5 class="card-title">Stock</h5>
                       <div class="row">
                         <div class="col-xl-12">
                           <div class="d-flex 200">
@@ -228,7 +242,7 @@ input[type=number] {
                             </div>
                             <div class="400 flex-fill pd-r-15 pd-l-15">
                               <div class="form-group">
-                                <input type="text" maxlength="4" placeholder="Quantity" name="quantitys[]" style="border-radius:0px" class="quantitys 0_input form-control" autocomplete="off">
+                                <input type="number" maxlength="4" placeholder="Quantity" name="quantitys[]" style="border-radius:0px" class="quantitys 0_input form-control" autocomplete="off">
                                 <div class="quantitys 0_error invalid-feedback"></div>
                               </div>
                             </div>
@@ -245,68 +259,76 @@ input[type=number] {
                       </div>
                     </div>
                   </div>
-                  <div class="card mt-4" style="border-radius:0px;">
-                    <div class="card-body">
-                      <h5 class="card-title">Image</h5>
-                      <div class="row">
-                          {{-- <div class="col-sm-4 col" style="margin-bottom: 5px; margin-top: 5px">
-                            <div class="delete-img-btn marker pos-absolute t-10 r-10 d-flex flex-column justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.2); height:25px;" type="button"><i class="fa fa-times fa-xl" style="color:rgba(0, 0, 0, 0.6);"></i></div>
-                            <img src="{{ asset('assets/picture/product-picture.webp')}}"  class="img-product img-fluid">
-                          </div> --}}
-                          <div class="col-sm-4 d-flex flex-column justify-content-center align-items-center" id="newImageColumn" style="margin-bottom: 5px; margin-top: 5px;height:172.66px;">
-                            <br>
-                            <i class="fa fa-image fa-2x op-4 icon-no-image"></i>
-                            <br>
-                            <p class="text-center text-new-image mt-3" >Click For Add New Image</p>
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-                
-                </div>
-                <div class="col-lg-6">
-                  <div class="card mt-4 table-responsive" style="border-radius:0px;">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-lg-12">
-                          <div id="image_demo" style="height:550px"></div>
-                            <div class="custom-file">
-                              <label class="custom-file-label label-upload-img"  style="border-radius:0px;display:none" for="uploadImage">New Photo</label>
-                                <input type="file" id="uploadImage" style="display:none">
-                              <label class="custom-file-label label-update-img"  style="border-radius:0px;display:none" for="updateImage">New Photo</label>
-                                <input type="file" id="updateImage" style="display:none">
-                            </div>
-                            <button type="button" class="btn btn-primary tx-13 mt-3 mb-3 btn-block" id="updateButton"  style="border-radius: 0px; display:none">Save</button>
-                            <button type="button" class="btn btn-primary tx-13 mt-3 mb-3 btn-block" id="saveButton"  style="border-radius: 0px; display:none">Save</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <button type="submit" id="createArticleSubmitButton" class="btn btn-primary float-right" style="border-radius:0px">Submit</button>
 
-      </form>
+        <div class="modal fade bd-example-modal-lg" id="cropImageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Crop Image</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="table-responsive">
+                      <div class="img-container">
+                        <img src="" alt="" id="image" style="max-width:100%">
+                      </div>
+                    </div>
+                      <div class="custom-file">
+                        <label class="custom-file-label label-upload-img"  style="border-radius:0px;display:none" for="uploadImage">New Photo</label>
+                          <input type="file" id="uploadImage" style="display:none">
+                        <label class="custom-file-label label-update-img"  style="border-radius:0px;display:none" for="updateImage">New Photo</label>
+                          <input type="file" id="updateImage" style="display:none">
+                      </div>
+                      <button type="button" class="btn btn-primary tx-13 mt-3 mb-3 btn-block" id="updateButton"  style="border-radius: 0px; display:none">Save</button>
+                      <button type="button" class="btn btn-primary tx-13 mt-3 mb-3 btn-block"   style="border-radius: 0px; display:none">Save</button>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="saveButton">Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+          <button type="submit" id="createArticleSubmitButton" class="btn btn-primary float-right" style="border-radius:0px">Submit</button>
+        </form>
+      </div>
+
+      <div class="pos-absolute t-10 r-10">
+        <div class="toast" role="alert" id="notification" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <h6 class="tx-inverse tx-14 mg-b-0 mg-r-auto">Notification</h6>
+            <button type="button" class="ml-2 mb-1 close tx-normal" data-dismiss="toast" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="toast-body">
+            Oops! you made an error while inserting data
+          </div>
+        </div>
       </div>
 
 @endsection
 
 @section('scripts')
 
+<script src="{{ url('/lib/cropperjs/dist/cropper.min.js') }}"></script>
 <script src="{{ url('/lib/Croppie-2.6.4/croppie.js') }}"></script>
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script> 
 <script src="{{ url('/lib/cleave.js/cleave.min.js')}}"></script>
 <script src="{{ url('/lib/cleave.js/addons/cleave-phone.us.js') }}"></script>
-<script src="{{ url('/lib/fancy-file-uploader/jquery.ui.widget.js') }}"></script>
-<script src="{{ url('/lib/fancy-file-uploader/jquery.fileupload.js') }}"></script>
-<script src="{{ url('/lib/fancy-file-uploader/jquery.iframe-transport.js') }}"></script>
-<script src="{{ url('/lib/fancy-file-uploader/jquery.fancy-fileupload.js') }}"></script>
 <script>
 
-  var swiper = new Swiper(".mySwiper", {
+var swiper = new Swiper(".mySwiper", {
         slidesPerView: 3,
         spaceBetween: 30,
         slidesPerGroup: 3,
@@ -328,11 +350,17 @@ input[type=number] {
       $(this).removeClass('is-invalid')
     })
 
+    $('.form-control').on('change', function(){
+      $(this).removeClass('is-invalid')
+    })
+
     $('#articleStoreForm').on('submit', function(e){
       e.preventDefault();
+      $('#createArticleSubmitButton').html(`<div class="spinner-border spinner-border-sm" role="status"></div>`)
+      $('#createArticleSubmitButton').prop(`disabled`, true)
       
-    createArticle()
-  })
+      createArticle()
+    })
 
   function createArticle(){
 
@@ -358,8 +386,14 @@ $.ajax({
         $(document).find(".parsley-required").html("");
     },
     success: function (data) {
+      $('#createArticleSubmitButton').html(`Submit`)
+      $('#createArticleSubmitButton').prop(`disabled`, false)
       if (data.status == 0) {
-        $(window).scrollTop("100");
+        const notification = document.getElementById('notification')
+        const toast = new bootstrap.Toast(notification)
+
+        toast.show()
+        // $(".content-body").scrollTop("0");
           $.each(data.error, function (prefix, val) {
               let stringPrefix = `"`+prefix+`"`;
                 $("."+prefix+"_input").addClass('is-invalid')
@@ -369,6 +403,7 @@ $.ajax({
               });
               
         } else {
+
             console.log(data.request);
             // window.location.href = "/";
         }
@@ -390,8 +425,6 @@ $.ajax({
       $("input[name='price']").on('input', function(e) {
             $(this).val($(this).val().replace(/[^0-9^. ]/g, ''));
         });
-
-
 
         $(function() {
           });
@@ -430,7 +463,6 @@ $.ajax({
     })
 
 
-
     $('select[name="volume"]').on('change', function(){
       console.log($(this).val());
 
@@ -460,7 +492,7 @@ $.ajax({
                       </div>
                       <div class="400 flex-fill pd-r-15 pd-l-15">
                         <div class="form-group">
-                          <input type="text" maxlength="4" placeholder="Quantity" name="quantitys[]" style="border-radius:0px" class="quantitys `+number+`_input form-control" autocomplete="off">
+                          <input type="number" maxlength="4" placeholder="Quantity" name="quantitys[]" style="border-radius:0px" class="quantitys `+number+`_input form-control" autocomplete="off">
                           <div class="quantitys `+number+`_error invalid-feedback"></div>
                         </div>
                       </div>
@@ -508,149 +540,115 @@ $.ajax({
 
       })
 
-      cropImage()
+      $('body').on('click','#newImageColumn', function(){
+          console.log('success');
+          $('#uploadImage').trigger('click')
+        })  
+        cropImage()
 
-      function cropImage(){
+        function cropImage(){
 
-         var image_crop = $('#image_demo').croppie({
-          enableExif: true,
-          viewport: {
-            width: 500,
-            height: 500,
-            type: 'squere',
+          var cropper;
+          var image = document.getElementById('image');
+          var input = document.getElementById('uploadImage');
 
-          },
-          boundary:{
-            width: 500,
-            height: 500
+        $('#uploadImage').on('change', function(e){      
+
+          var files = e.target.files;
+          var done = function (url) {
+            input.value = '';
+            image.src = url;
+            $('#cropImageModal').modal('show');
+          };
+
+          var reader;
+          var file;
+          var url;
+
+          if (files && files.length > 0) {
+          file = files[0];
+
+          if (URL) {
+            done(URL.createObjectURL(file));
+          } else if (FileReader) {
+            reader = new FileReader();
+            reader.onload = function (e) {
+              done(reader.result);
+            };
+            reader.readAsDataURL(file);
           }
-        })
-
-          image_crop.croppie('bind', {
-			        url: `{{ asset('/assets/picture/nopict.jpg' )}}`,
-		        });
-
-        $('#uploadImage').on('change', function(){      
-
-          var reader = new FileReader();
-          reader.onload = function (event){
-            image_crop.croppie('bind', {
-              url: event.target.result
-            }).then(function(){
-              console.log('jQuery bin complete');
-            });
           }
-          console.log(this.files[0]);
-          reader.readAsDataURL(this.files[0]);
+
           $('.img-product').removeClass('img-thumbnail')
 
           $('#saveButton').show()
-          $('#updateButton').hide()
-          $('.label-upload-img').show()
-          $('.label-update-img').hide()
+          // $('.label-upload-img').show()
+          // $('.label-update-img').hide()
 
         });
+
+        $('#cropImageModal').on('shown.bs.modal', function () {
+        cropper = new Cropper(image, {
+          aspectRatio: 1 / 1,
+          viewMode: 1,
+          ready: function (e) {
+            this.cropper.move(1, -1);
+          },
+        });
+      }).on('hidden.bs.modal', function () {
+        cropper.destroy();
+        cropper = null;
+      });
+
+      $('#saveButton').on('click', function (ev) {
+        var canvas;
+          if (cropper) {
+            canvas = cropper.getCroppedCanvas();
+          }
+
+          let imageCropped = canvas.toDataURL();
+          console.log(imageCropped);
+
+          $('#cropImageModal').modal('hide')
+            $('#newImageColumn').before(` <div class="col-sm-4" style="margin-bottom: 5px; margin-top: 5px">
+              <div class="delete-img-btn marker pos-absolute t-10 r-10 d-flex flex-column justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.2); height:25px;" type="button"><i class="fa fa-times fa-xl" style="color:rgba(0, 0, 0, 0.6);"></i></div>
+                      <img src="`+  imageCropped +`" class="img-product img-fluid img-thumbnail">
+                      <input type="hidden" value="`+ imageCropped +`" name="image[]">
+                    </div>
+                    `)
+
+            let countDetailInput = $(".img-product").length;
+                if( countDetailInput >= 6 ){
+              $('#newImageColumn').remove();
+            }
+		    });
 
         $("body").on('click','.delete-img-btn', function(){
           $(this).closest('.col-sm-4').remove();
           let child = $(this).parents();
           let imageClass = child.find('.img-fluid')
 
-          if (imageClass.hasClass('img-thumbnail')) {
-            image_crop.croppie('bind', {
-			        url: `{{ asset('/assets/picture/nopict.jpg' )}}`,
-		        });
-            $('#updateButton').hide()
-          $('.label-update-img').hide()
-          $('.label-upload-img').hide()
-          $('#saveButton').hide()
-          }
+          let countDetailInput = $(".img-product").length;
+                if( countDetailInput == 5 ){
+              $('#rowImage').append(`<div class="col-sm-4 d-flex flex-column justify-content-center align-items-center" id="newImageColumn" style="margin-bottom: 5px; margin-top: 5px;height:172.66px;">
+                            <br>
+                            <i class="fa fa-image fa-2x op-4 icon-no-image"></i>
+                            <br>
+                            <p class="text-center text-new-image mt-3" >Click For Add New Image</p>
+                          </div>`);
+            }
 
         })
-
-        $('#updateImage').on('change', function(){      
-
-          var reader = new FileReader();
-          reader.onload = function (event){
-            image_crop.croppie('bind', {
-              url: event.target.result
-            }).then(function(){
-              console.log('jQuery bin complete');
-            });
-          }
-          console.log(this.files[0]);
-          reader.readAsDataURL(this.files[0]);
-
-          $('#updateButton').show()
-          $('.label-update-img').show()
-
-        });
-
 
         $('body').on('click','.img-product', function(e){
           let image = $(this).attr('src')
 
-          $('#updateButton').show()
-          $('.label-update-img').show()
-
           $('.img-product').removeClass('img-thumbnail')
           $(this).addClass('img-thumbnail')
 
-          $('.label-upload-img').hide()
-          $('#saveButton').hide()
-          image_crop.croppie('bind', {
-			      url: image,
-		      });
-
         })
 
-        $('body').on('click','#newImageColumn', function(e){
-          // $('.label-upload-img').hide()
-          
-          console.log('success');
-          $('#uploadImage').trigger('click')
-        })
-
-        $('#saveButton').on('click', function (ev) {
-		    	image_crop.croppie('result', {
-		    		type: 'canvas',
-		    		size: 'viewport'
-		    	}).then(function (resp) {
-            $('#newImageColumn').before(` <div class="col-sm-4" style="margin-bottom: 5px; margin-top: 5px">
-              <div class="delete-img-btn marker pos-absolute t-10 r-10 d-flex flex-column justify-content-center align-items-center" style="background-color: rgba(0,0,0,0.2); height:25px;" type="button"><i class="fa fa-times fa-xl" style="color:rgba(0, 0, 0, 0.6);"></i></div>
-                      <img src="`+ resp +`"  class="img-product img-fluid img-thumbnail">
-                     <input type="hidden" value="`+resp+`" name="image[]">
-                    </div>
-                    `)
-		    	});
-
-          $('.label-upload-img').hide()
-          $('#saveButton').hide()
-
-          $('#updateButton').show()
-          $('.label-update-img').show()
-
-
-		    });
-
-        $('#updateButton').on('click', function (ev) {
-          
-          let parent = $('.img-thumbnail').parents().eq(0);
-          let child = parent.find('input')
-
-          
-          console.log(child);
-          image_crop.croppie('result', {
-            	type: 'canvas',
-            	size: 'viewport'
-            }).then(function (resp) {
-                $('.img-thumbnail').attr('src',resp)
-                child.val(resp) 
-		    	});
-
-		    });
-
-      }
+    }
 
   })
 

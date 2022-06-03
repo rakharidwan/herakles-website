@@ -10,7 +10,7 @@ class Article extends Model
     use HasFactory;
 
     protected $table = 'articles';
-    protected $fillable = ['id_category','code_article','no_article','name_article','price','description','chapter','status_publish','created_at'];
+    protected $fillable = ['id_category','code_article','no_article','name_article','price','description','chapter','main_image','status_publish','created_at'];
 
 
     public function detail()
@@ -27,6 +27,11 @@ class Article extends Model
         return $this->morphedByMany(ArticleQuantity::class, 'articlable');
     }
 
+    public function volume()
+    {
+        return $this->morphedByMany(Volume::class, 'articlable');
+    }
+
     public function photo()
     {
         return $this->morphedByMany(ArticlePhoto::class, 'articlable');
@@ -34,7 +39,7 @@ class Article extends Model
 
     public function category()
     {
-        return $this->belongsTo(ArticleCategory::class);
+        return $this->belongsTo(ArticleCategory::class,'id_category');
     }
 
 }

@@ -12,6 +12,8 @@ class ArticleCategory extends Model
     protected $table = 'article_categorys';
 
     public function article(){
-        return $this->hasOne(Article::class);
+
+        return $this->hasMany(Article::class);
+        
     }
 }
